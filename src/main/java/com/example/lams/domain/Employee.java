@@ -21,8 +21,8 @@ public class Employee extends BasicDetails{
     public Employee() {
     }
 
-    public Employee(Long dateCreated, String creatorId, Long dateModified, String modifierId, Boolean isDeleted, String empId, String empName, String emailId, String managerId) {
-        super(dateCreated, creatorId, dateModified, modifierId, isDeleted);
+    public Employee(Long dateCreated, Long dateModified, Boolean isDeleted, String empId, String empName, String emailId, String managerId) {
+        super(dateCreated, dateModified, isDeleted);
         this.empId = empId;
         this.empName = empName;
         this.emailId = emailId;
@@ -69,19 +69,11 @@ public class Employee extends BasicDetails{
     }
 
     public static interface DateCreatedStep {
-        CreatorIdStep withDateCreated(Long dateCreated);
-    }
-
-    public static interface CreatorIdStep {
-        DateModifiedStep withCreatorId(String creatorId);
+        DateModifiedStep withDateCreated(Long dateCreated);
     }
 
     public static interface DateModifiedStep {
-        ModifierIdStep withDateModified(Long dateModified);
-    }
-
-    public static interface ModifierIdStep {
-        IsDeletedStep withModifierId(String modifierId);
+        IsDeletedStep withDateModified(Long dateModified);
     }
 
     public static interface IsDeletedStep {
@@ -109,11 +101,9 @@ public class Employee extends BasicDetails{
     }
 
 
-    public static class Builder implements DateCreatedStep, CreatorIdStep, DateModifiedStep, ModifierIdStep, IsDeletedStep, EmpIdStep, EmpNameStep, EmailIdStep, ManagerIdStep, BuildStep {
+    public static class Builder implements DateCreatedStep, DateModifiedStep, IsDeletedStep, EmpIdStep, EmpNameStep, EmailIdStep, ManagerIdStep, BuildStep {
         private Long dateCreated;
-        private String creatorId;
         private Long dateModified;
-        private String modifierId;
         private Boolean isDeleted;
         private String empId;
         private String empName;
@@ -128,26 +118,14 @@ public class Employee extends BasicDetails{
         }
 
         @Override
-        public CreatorIdStep withDateCreated(Long dateCreated) {
+        public DateModifiedStep withDateCreated(Long dateCreated) {
             this.dateCreated = dateCreated;
             return this;
         }
 
         @Override
-        public DateModifiedStep withCreatorId(String creatorId) {
-            this.creatorId = creatorId;
-            return this;
-        }
-
-        @Override
-        public ModifierIdStep withDateModified(Long dateModified) {
+        public IsDeletedStep withDateModified(Long dateModified) {
             this.dateModified = dateModified;
-            return this;
-        }
-
-        @Override
-        public IsDeletedStep withModifierId(String modifierId) {
-            this.modifierId = modifierId;
             return this;
         }
 
@@ -185,9 +163,7 @@ public class Employee extends BasicDetails{
         public Employee build() {
             return new Employee(
                     this.dateCreated,
-                    this.creatorId,
                     this.dateModified,
-                    this.modifierId,
                     this.isDeleted,
                     this.empId,
                     this.empName,

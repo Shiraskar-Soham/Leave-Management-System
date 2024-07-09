@@ -28,8 +28,8 @@ public class LeaveApplication extends BasicDetails {
     public LeaveApplication() {
     }
 
-    public LeaveApplication(Long dateCreated, String creatorId, Long dateModified, String modifierId, Boolean isDeleted, String leaveId, String empId, String empName, String reason, Long startDate, Long endDate, String managerId, LeaveStatus status) {
-        super(dateCreated, creatorId, dateModified, modifierId, isDeleted);
+    public LeaveApplication(Long dateCreated, Long dateModified, Boolean isDeleted, String leaveId, String empId, String empName, String reason, Long startDate, Long endDate, String managerId, LeaveStatus status) {
+        super(dateCreated, dateModified, isDeleted);
         this.leaveId = leaveId;
         this.empId = empId;
         this.empName = empName;
@@ -116,19 +116,11 @@ public class LeaveApplication extends BasicDetails {
     }
 
     public static interface DateCreatedStep {
-        CreatorIdStep withDateCreated(Long dateCreated);
-    }
-
-    public static interface CreatorIdStep {
-        DateModifiedStep withCreatorId(String creatorId);
+        DateModifiedStep withDateCreated(Long dateCreated);
     }
 
     public static interface DateModifiedStep {
-        ModifierIdStep withDateModified(Long dateModified);
-    }
-
-    public static interface ModifierIdStep {
-        IsDeletedStep withModifierId(String modifierId);
+        IsDeletedStep withDateModified(Long dateModified);
     }
 
     public static interface IsDeletedStep {
@@ -172,11 +164,9 @@ public class LeaveApplication extends BasicDetails {
     }
 
 
-    public static class Builder implements DateCreatedStep, CreatorIdStep, DateModifiedStep, ModifierIdStep, IsDeletedStep, LeaveIdStep, EmpIdStep, EmpNameStep, ReasonStep, StartDateStep, EndDateStep, ManagerIdStep, StatusStep, BuildStep {
+    public static class Builder implements DateCreatedStep, DateModifiedStep, IsDeletedStep, LeaveIdStep, EmpIdStep, EmpNameStep, ReasonStep, StartDateStep, EndDateStep, ManagerIdStep, StatusStep, BuildStep {
         private Long dateCreated;
-        private String creatorId;
         private Long dateModified;
-        private String modifierId;
         private Boolean isDeleted;
         private String leaveId;
         private String empId;
@@ -195,26 +185,14 @@ public class LeaveApplication extends BasicDetails {
         }
 
         @Override
-        public CreatorIdStep withDateCreated(Long dateCreated) {
+        public DateModifiedStep withDateCreated(Long dateCreated) {
             this.dateCreated = dateCreated;
             return this;
         }
 
         @Override
-        public DateModifiedStep withCreatorId(String creatorId) {
-            this.creatorId = creatorId;
-            return this;
-        }
-
-        @Override
-        public ModifierIdStep withDateModified(Long dateModified) {
+        public IsDeletedStep withDateModified(Long dateModified) {
             this.dateModified = dateModified;
-            return this;
-        }
-
-        @Override
-        public IsDeletedStep withModifierId(String modifierId) {
-            this.modifierId = modifierId;
             return this;
         }
 
@@ -276,9 +254,7 @@ public class LeaveApplication extends BasicDetails {
         public LeaveApplication build() {
             return new LeaveApplication(
                     this.dateCreated,
-                    this.creatorId,
                     this.dateModified,
-                    this.modifierId,
                     this.isDeleted,
                     this.leaveId,
                     this.empId,

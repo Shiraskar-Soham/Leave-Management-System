@@ -17,25 +17,17 @@ public class BasicDetails {
     @CreationTimestamp
     private Long dateCreated;
 
-    @Column(name= "CreatedBy")
-    private String creatorId;
-
     @Column(name= "DateModified")
     @Temporal(TemporalType.DATE)
     @UpdateTimestamp
     private Long dateModified;
 
-    @Column(name= "modifiedBy")
-    private String modifierId;
-
     @Column(name= "isDeleted")
     private Boolean isDeleted;
 
-    public BasicDetails(Long dateCreated, String creatorId, Long dateModified, String modifierId, Boolean isDeleted) {
+    public BasicDetails(Long dateCreated, Long dateModified, Boolean isDeleted) {
         this.dateCreated = dateCreated;
-        this.creatorId = creatorId;
         this.dateModified = dateModified;
-        this.modifierId = modifierId;
         this.isDeleted = isDeleted;
     }
 
@@ -50,28 +42,12 @@ public class BasicDetails {
         this.dateCreated = dateCreated;
     }
 
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
-    }
-
     public Long getDateModified() {
         return dateModified;
     }
 
     public void setDateModified(Long dateModified) {
         this.dateModified = dateModified;
-    }
-
-    public String getModifierId() {
-        return modifierId;
-    }
-
-    public void setModifierId(String modifierId) {
-        this.modifierId = modifierId;
     }
 
     public Boolean getIsDeleted() {
