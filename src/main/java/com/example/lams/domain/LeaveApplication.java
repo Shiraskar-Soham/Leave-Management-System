@@ -2,11 +2,9 @@ package com.example.lams.domain;
 
 import com.example.lams.enums.LeaveStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
 
-@Builder
 @Entity
-@Table(name="leave")
+@Table(name="leave_request")
 public class LeaveApplication extends BasicDetails {
     @Id
     @Column(name="leaveId")
@@ -27,8 +25,22 @@ public class LeaveApplication extends BasicDetails {
     @Column(name="status")
     private LeaveStatus status;
 
+    public LeaveApplication() {
+    }
+
     public LeaveApplication(Long dateCreated, String creatorId, Long dateModified, String modifierId, Boolean isDeleted, String leaveId, String empId, String empName, String reason, Long startDate, Long endDate, String managerId, LeaveStatus status) {
         super(dateCreated, creatorId, dateModified, modifierId, isDeleted);
+        this.leaveId = leaveId;
+        this.empId = empId;
+        this.empName = empName;
+        this.reason = reason;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.managerId = managerId;
+        this.status = status;
+    }
+
+    public LeaveApplication(String leaveId, String empId, String empName, String reason, Long startDate, Long endDate, String managerId, LeaveStatus status) {
         this.leaveId = leaveId;
         this.empId = empId;
         this.empName = empName;
@@ -101,5 +113,182 @@ public class LeaveApplication extends BasicDetails {
 
     public void setStatus(LeaveStatus status) {
         this.status = status;
+    }
+
+    public static interface DateCreatedStep {
+        CreatorIdStep withDateCreated(Long dateCreated);
+    }
+
+    public static interface CreatorIdStep {
+        DateModifiedStep withCreatorId(String creatorId);
+    }
+
+    public static interface DateModifiedStep {
+        ModifierIdStep withDateModified(Long dateModified);
+    }
+
+    public static interface ModifierIdStep {
+        IsDeletedStep withModifierId(String modifierId);
+    }
+
+    public static interface IsDeletedStep {
+        LeaveIdStep withIsDeleted(Boolean isDeleted);
+    }
+
+    public static interface LeaveIdStep {
+        EmpIdStep withLeaveId(String leaveId);
+    }
+
+    public static interface EmpIdStep {
+        EmpNameStep withEmpId(String empId);
+    }
+
+    public static interface EmpNameStep {
+        ReasonStep withEmpName(String empName);
+    }
+
+    public static interface ReasonStep {
+        StartDateStep withReason(String reason);
+    }
+
+    public static interface StartDateStep {
+        EndDateStep withStartDate(Long startDate);
+    }
+
+    public static interface EndDateStep {
+        ManagerIdStep withEndDate(Long endDate);
+    }
+
+    public static interface ManagerIdStep {
+        StatusStep withManagerId(String managerId);
+    }
+
+    public static interface StatusStep {
+        BuildStep withStatus(LeaveStatus status);
+    }
+
+    public static interface BuildStep {
+        LeaveApplication build();
+    }
+
+
+    public static class Builder implements DateCreatedStep, CreatorIdStep, DateModifiedStep, ModifierIdStep, IsDeletedStep, LeaveIdStep, EmpIdStep, EmpNameStep, ReasonStep, StartDateStep, EndDateStep, ManagerIdStep, StatusStep, BuildStep {
+        private Long dateCreated;
+        private String creatorId;
+        private Long dateModified;
+        private String modifierId;
+        private Boolean isDeleted;
+        private String leaveId;
+        private String empId;
+        private String empName;
+        private String reason;
+        private Long startDate;
+        private Long endDate;
+        private String managerId;
+        private LeaveStatus status;
+
+        private Builder() {
+        }
+
+        public static DateCreatedStep leaveApplication() {
+            return new Builder();
+        }
+
+        @Override
+        public CreatorIdStep withDateCreated(Long dateCreated) {
+            this.dateCreated = dateCreated;
+            return this;
+        }
+
+        @Override
+        public DateModifiedStep withCreatorId(String creatorId) {
+            this.creatorId = creatorId;
+            return this;
+        }
+
+        @Override
+        public ModifierIdStep withDateModified(Long dateModified) {
+            this.dateModified = dateModified;
+            return this;
+        }
+
+        @Override
+        public IsDeletedStep withModifierId(String modifierId) {
+            this.modifierId = modifierId;
+            return this;
+        }
+
+        @Override
+        public LeaveIdStep withIsDeleted(Boolean isDeleted) {
+            this.isDeleted = isDeleted;
+            return this;
+        }
+
+        @Override
+        public EmpIdStep withLeaveId(String leaveId) {
+            this.leaveId = leaveId;
+            return this;
+        }
+
+        @Override
+        public EmpNameStep withEmpId(String empId) {
+            this.empId = empId;
+            return this;
+        }
+
+        @Override
+        public ReasonStep withEmpName(String empName) {
+            this.empName = empName;
+            return this;
+        }
+
+        @Override
+        public StartDateStep withReason(String reason) {
+            this.reason = reason;
+            return this;
+        }
+
+        @Override
+        public EndDateStep withStartDate(Long startDate) {
+            this.startDate = startDate;
+            return this;
+        }
+
+        @Override
+        public ManagerIdStep withEndDate(Long endDate) {
+            this.endDate = endDate;
+            return this;
+        }
+
+        @Override
+        public StatusStep withManagerId(String managerId) {
+            this.managerId = managerId;
+            return this;
+        }
+
+        @Override
+        public BuildStep withStatus(LeaveStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        @Override
+        public LeaveApplication build() {
+            return new LeaveApplication(
+                    this.dateCreated,
+                    this.creatorId,
+                    this.dateModified,
+                    this.modifierId,
+                    this.isDeleted,
+                    this.leaveId,
+                    this.empId,
+                    this.empName,
+                    this.reason,
+                    this.startDate,
+                    this.endDate,
+                    this.managerId,
+                    this.status
+            );
+        }
     }
 }

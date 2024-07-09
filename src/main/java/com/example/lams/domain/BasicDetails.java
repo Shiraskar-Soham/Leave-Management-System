@@ -1,13 +1,16 @@
 package com.example.lams.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
+@Builder
 public class BasicDetails {
     @Column(name= "DateCreated")
     @Temporal(TemporalType.DATE)
