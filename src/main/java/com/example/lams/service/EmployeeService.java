@@ -23,24 +23,32 @@ public class EmployeeService {
         return employeeRepository.findByNameLike(name);
     }
 
-    public boolean createEmployee(Employee employee){
+    public boolean createEmployee(Employee employee) throws Exception {
+        if(ObjectUtils.isEmpty(employee)) {
+            throw new Exception("Employee cannot be blank");
+        }
         employeeRepository.save(employee);
         return true;
     }
 
     public Employee getEmployeeByEmpId(String empId){
+        //check for null empId
         return employeeRepository.findByEmpId(empId);
     }
 
     public void deleteEmployeeByEmpId(String empId){
+        //check for null empId
         Employee e = employeeRepository.findByEmpId(empId);
+        //Check if employee not found
         e.setIsDeleted(true);
         e.setDateModified(System.currentTimeMillis());
         employeeRepository.save(e);
     }
 
     public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
+        //check for empty dto
         Employee e = employeeRepository.findByEmpId(employeeDto.getEmpId());
+        //check if employee not found
         e.setDateModified(System.currentTimeMillis());
         e.setEmailId(employeeDto.getEmailId());
         e.setEmpName(employeeDto.getEmpName());

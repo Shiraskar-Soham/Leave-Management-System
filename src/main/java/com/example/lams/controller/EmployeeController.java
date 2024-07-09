@@ -24,7 +24,7 @@ public class EmployeeController {
 
 
     @PostMapping("/createEmployee")
-    public boolean createEmployee(@RequestBody Employee employee) {
+    public boolean createEmployee(@RequestBody Employee employee) throws Exception {
         return employeeService.createEmployee(employee);
     }
 
