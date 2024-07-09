@@ -2,6 +2,7 @@ package com.example.lams.controller;
 
 
 import com.example.lams.domain.Employee;
+import com.example.lams.dtos.EmployeeDto;
 import com.example.lams.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +38,8 @@ public class EmployeeController {
         employeeService.deleteEmployeeByEmpId(empId);
     }
 
+    @PostMapping("/update")
+    public EmployeeDto update(@RequestBody EmployeeDto employeeDto){
+        return employeeService.updateEmployee(employeeDto);
+    }
 }

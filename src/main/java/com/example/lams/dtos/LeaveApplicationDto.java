@@ -1,6 +1,5 @@
 package com.example.lams.dtos;
 
-import com.example.lams.enums.LeaveStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,23 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LeaveApplicationDto {
     private String leaveId;
-    private String empId;
-    private String empName;
     private String reason;
     private Long startDate;
     private Long endDate;
-    private LeaveStatus status;
 
     public static interface LeaveIdStep {
-        EmpIdStep withLeaveId(String leaveId);
-    }
-
-    public static interface EmpIdStep {
-        EmpNameStep withEmpId(String empId);
-    }
-
-    public static interface EmpNameStep {
-        ReasonStep withEmpName(String empName);
+        ReasonStep withLeaveId(String leaveId);
     }
 
     public static interface ReasonStep {
@@ -38,11 +26,7 @@ public class LeaveApplicationDto {
     }
 
     public static interface EndDateStep {
-        StatusStep withEndDate(Long endDate);
-    }
-
-    public static interface StatusStep {
-        BuildStep withStatus(LeaveStatus status);
+        BuildStep withEndDate(Long endDate);
     }
 
     public static interface BuildStep {
@@ -50,14 +34,11 @@ public class LeaveApplicationDto {
     }
 
 
-    public static class Builder implements LeaveIdStep, EmpIdStep, EmpNameStep, ReasonStep, StartDateStep, EndDateStep, StatusStep, BuildStep {
+    public static class Builder implements LeaveIdStep, ReasonStep, StartDateStep, EndDateStep, BuildStep {
         private String leaveId;
-        private String empId;
-        private String empName;
         private String reason;
         private Long startDate;
         private Long endDate;
-        private LeaveStatus status;
 
         private Builder() {
         }
@@ -67,20 +48,8 @@ public class LeaveApplicationDto {
         }
 
         @Override
-        public EmpIdStep withLeaveId(String leaveId) {
+        public ReasonStep withLeaveId(String leaveId) {
             this.leaveId = leaveId;
-            return this;
-        }
-
-        @Override
-        public EmpNameStep withEmpId(String empId) {
-            this.empId = empId;
-            return this;
-        }
-
-        @Override
-        public ReasonStep withEmpName(String empName) {
-            this.empName = empName;
             return this;
         }
 
@@ -97,14 +66,8 @@ public class LeaveApplicationDto {
         }
 
         @Override
-        public StatusStep withEndDate(Long endDate) {
+        public BuildStep withEndDate(Long endDate) {
             this.endDate = endDate;
-            return this;
-        }
-
-        @Override
-        public BuildStep withStatus(LeaveStatus status) {
-            this.status = status;
             return this;
         }
 
@@ -112,12 +75,9 @@ public class LeaveApplicationDto {
         public LeaveApplicationDto build() {
             return new LeaveApplicationDto(
                     this.leaveId,
-                    this.empId,
-                    this.empName,
                     this.reason,
                     this.startDate,
-                    this.endDate,
-                    this.status
+                    this.endDate
             );
         }
     }

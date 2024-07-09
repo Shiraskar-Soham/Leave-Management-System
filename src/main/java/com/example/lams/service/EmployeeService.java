@@ -2,6 +2,7 @@ package com.example.lams.service;
 
 import com.example.lams.Repository.EmployeeRepository;
 import com.example.lams.domain.Employee;
+import com.example.lams.dtos.EmployeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -36,5 +37,15 @@ public class EmployeeService {
         e.setIsDeleted(true);
         e.setDateModified(System.currentTimeMillis());
         employeeRepository.save(e);
+    }
+
+    public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
+        Employee e = employeeRepository.findByEmpId(employeeDto.getEmpId());
+        e.setDateModified(System.currentTimeMillis());
+        e.setEmailId(employeeDto.getEmailId());
+        e.setEmpName(employeeDto.getEmpName());
+        e.setManagerId(employeeDto.getManagerId());
+        employeeRepository.save(e);
+        return employeeDto;
     }
 }
