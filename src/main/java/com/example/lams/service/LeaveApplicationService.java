@@ -3,7 +3,7 @@ package com.example.lams.service;
 import com.example.lams.Repository.LeaveApplicationRepository;
 import com.example.lams.domain.Employee;
 import com.example.lams.domain.LeaveApplication;
-import com.example.lams.dtos.LeaveApplicationDto;
+import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,20 +61,20 @@ public class LeaveApplicationService {
         leaveApplicationRepository.save(l);
     }
 
-    public LeaveApplicationDto updateLeaveApplication(LeaveApplicationDto leaveApplicationDto) throws Exception {
-        if(ObjectUtils.isEmpty(leaveApplicationDto)){
+    public LeaveApplicationUpdateDto updateLeaveApplication(LeaveApplicationUpdateDto leaveApplicationUpdateDto) throws Exception {
+        if(ObjectUtils.isEmpty(leaveApplicationUpdateDto)){
             throw new Exception("leaveApplicationDto cannot be empty");
         }
-        LeaveApplication l = leaveApplicationRepository.findByLeaveId(leaveApplicationDto.getLeaveId());
-        if(ObjectUtils.isEmpty(leaveApplicationDto)){
+        LeaveApplication l = leaveApplicationRepository.findByLeaveId(leaveApplicationUpdateDto.getLeaveId());
+        if(ObjectUtils.isEmpty(leaveApplicationUpdateDto)){
             throw new Exception("No leave found for the leaveApplicationDto");
         }
         l.setDateModified(System.currentTimeMillis());
-        l.setReason(leaveApplicationDto.getReason());
-        l.setStartDate(leaveApplicationDto.getStartDate());
-        l.setEndDate(leaveApplicationDto.getEndDate());
+        l.setReason(leaveApplicationUpdateDto.getReason());
+        l.setStartDate(leaveApplicationUpdateDto.getStartDate());
+        l.setEndDate(leaveApplicationUpdateDto.getEndDate());
         leaveApplicationRepository.save(l);
-        return leaveApplicationDto;
+        return leaveApplicationUpdateDto;
     }
 
     public LeaveApplication approvalAndRejectionByManager(String leaveId, LeaveStatus status, String loggedInAccountId) throws Exception {

@@ -2,7 +2,7 @@ package com.example.lams.controller;
 
 
 import com.example.lams.domain.Employee;
-import com.example.lams.dtos.EmployeeDto;
+import com.example.lams.dtos.EmployeeUpdateDto;
 import com.example.lams.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/update")
-    public EmployeeDto update(@RequestBody EmployeeDto employeeDto) throws Exception {
-        return employeeService.updateEmployee(employeeDto);
+    public EmployeeUpdateDto update(@RequestBody EmployeeUpdateDto employeeUpdateDto) throws Exception {
+        return employeeService.updateEmployee(employeeUpdateDto);
     }
 }

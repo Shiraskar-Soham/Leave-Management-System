@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDto {
+public class EmployeeUpdateDto {
     private String empId;
     private String empName;
     private String managerId;
@@ -30,7 +30,7 @@ public class EmployeeDto {
     }
 
     public static interface BuildStep {
-        EmployeeDto build();
+        EmployeeUpdateDto build();
     }
 
 
@@ -72,8 +72,8 @@ public class EmployeeDto {
         }
 
         @Override
-        public EmployeeDto build() {
-            return new EmployeeDto(
+        public EmployeeUpdateDto build() {
+            return new EmployeeUpdateDto(
                     this.empId,
                     this.empName,
                     this.managerId,

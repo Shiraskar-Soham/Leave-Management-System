@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeaveApplicationDto {
+public class LeaveApplicationUpdateDto {
     private String leaveId;
     private String reason;
     private Long startDate;
@@ -30,7 +30,7 @@ public class LeaveApplicationDto {
     }
 
     public static interface BuildStep {
-        LeaveApplicationDto build();
+        LeaveApplicationUpdateDto build();
     }
 
 
@@ -72,8 +72,8 @@ public class LeaveApplicationDto {
         }
 
         @Override
-        public LeaveApplicationDto build() {
-            return new LeaveApplicationDto(
+        public LeaveApplicationUpdateDto build() {
+            return new LeaveApplicationUpdateDto(
                     this.leaveId,
                     this.reason,
                     this.startDate,

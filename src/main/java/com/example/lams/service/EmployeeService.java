@@ -2,7 +2,7 @@ package com.example.lams.service;
 
 import com.example.lams.Repository.EmployeeRepository;
 import com.example.lams.domain.Employee;
-import com.example.lams.dtos.EmployeeDto;
+import com.example.lams.dtos.EmployeeUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -57,19 +57,19 @@ public class EmployeeService {
         employeeRepository.save(e);
     }
 
-    public EmployeeDto updateEmployee(EmployeeDto employeeDto) throws Exception {
-        if(ObjectUtils.isEmpty(employeeDto)){
+    public EmployeeUpdateDto updateEmployee(EmployeeUpdateDto employeeUpdateDto) throws Exception {
+        if(ObjectUtils.isEmpty(employeeUpdateDto)){
             throw new Exception("EmployeeDTO cannot be empty");
         }
-        Employee e = employeeRepository.findByEmpId(employeeDto.getEmpId());
+        Employee e = employeeRepository.findByEmpId(employeeUpdateDto.getEmpId());
         if(ObjectUtils.isEmpty(e)){
             throw new Exception("No Employee Found");
         }
         e.setDateModified(System.currentTimeMillis());
-        e.setEmailId(employeeDto.getEmailId());
-        e.setEmpName(employeeDto.getEmpName());
-        e.setManagerId(employeeDto.getManagerId());
+        e.setEmailId(employeeUpdateDto.getEmailId());
+        e.setEmpName(employeeUpdateDto.getEmpName());
+        e.setManagerId(employeeUpdateDto.getManagerId());
         employeeRepository.save(e);
-        return employeeDto;
+        return employeeUpdateDto;
     }
 }

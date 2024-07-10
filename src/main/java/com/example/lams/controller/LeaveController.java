@@ -1,7 +1,7 @@
 package com.example.lams.controller;
 
 import com.example.lams.domain.LeaveApplication;
-import com.example.lams.dtos.LeaveApplicationDto;
+import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
 import com.example.lams.service.LeaveApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class LeaveController {
     }
 
     @PostMapping("/update")
-    public LeaveApplicationDto update(@RequestBody LeaveApplicationDto leaveApplicationDto) throws Exception {
-        return leaveApplicationService.updateLeaveApplication(leaveApplicationDto);
+    public LeaveApplicationUpdateDto update(@RequestBody LeaveApplicationUpdateDto leaveApplicationUpdateDto) throws Exception {
+        return leaveApplicationService.updateLeaveApplication(leaveApplicationUpdateDto);
     }
 
     @PostMapping("/manageLeave")
