@@ -69,6 +69,9 @@ public class LeaveApplicationService {
         if(ObjectUtils.isEmpty(leaveApplicationUpdateDto)){
             throw new Exception("No leave found for the leaveApplicationDto");
         }
+        if(l.getStatus()!=LeaveStatus.PENDING){
+            throw new Exception("Leave is already " + l.getStatus() + ".");
+        }
         l.setDateModified(System.currentTimeMillis());
         l.setReason(leaveApplicationUpdateDto.getReason());
         l.setStartDate(leaveApplicationUpdateDto.getStartDate());
@@ -94,5 +97,12 @@ public class LeaveApplicationService {
         leaveApplication.setStatus(status);
         leaveApplication.setDateModified(System.currentTimeMillis());
         return leaveApplicationRepository.save(leaveApplication);
+    }
+
+    public List<LeaveApplication> getByManagerId(String managerId) throws Exception {
+        if(ObjectUtils.isEmpty(managerId)){
+            throw new Exception("Manager Id cannot be null.");
+        }
+        return leaveApplicationRepository.findByManagerId(managerId);
     }
 }

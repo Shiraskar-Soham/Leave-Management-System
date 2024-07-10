@@ -43,4 +43,9 @@ public class LeaveController {
     public LeaveApplication manageLeave(@RequestParam String leaveId, @RequestParam LeaveStatus status, @RequestParam String loggedInAccountId) throws Exception {
         return leaveApplicationService.approvalAndRejectionByManager(leaveId, status, loggedInAccountId);
     }
+
+    @GetMapping("/getByManager")
+    public List<LeaveApplication> getByManager(@RequestParam String managerId) throws Exception {
+        return leaveApplicationService.getByManagerId(managerId);
+    }
 }

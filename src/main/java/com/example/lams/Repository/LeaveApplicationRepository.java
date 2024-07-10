@@ -11,5 +11,9 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
 
     LeaveApplication findByLeaveId(String leaveId);
 
+    @Query(value = "SELECT * from leave_request WHERE emp_id = ?1 and is_deleted=false", nativeQuery = true)
     List<LeaveApplication> findByEmpId(String empId);
+
+    @Query(value = "SELECT * from leave_request WHERE manager_id = ?1 and is_deleted=false", nativeQuery = true)
+    List<LeaveApplication> findByManagerId(String managerId);
 }
