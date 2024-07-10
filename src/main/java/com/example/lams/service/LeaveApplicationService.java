@@ -18,6 +18,9 @@ public class LeaveApplicationService {
 
     public boolean createLeaveApplication(LeaveApplication leaveApplication) {
         //check for empty leave
+        leaveApplication.setDateCreated(System.currentTimeMillis());
+        leaveApplication.setDateModified(System.currentTimeMillis());
+        leaveApplication.setStatus(LeaveStatus.PENDING);
         leaveApplicationRepository.save(leaveApplication);
         return true;
     }

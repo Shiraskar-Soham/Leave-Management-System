@@ -2,27 +2,29 @@ package com.example.lams.domain;
 
 import com.example.lams.enums.LeaveStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name="leave_request")
+@Where(clause = "isDeleted=0")
 public class LeaveApplication extends BasicDetails {
     @Id
-    @Column(name="leaveId")
+    @Column(name="leaveId", nullable = false)
     private String leaveId;
-    @Column(name="empId")
+    @Column(name="empId", nullable = false)
     private String empId;
     @Column(name="empName")
     private String empName;
     @Column(name= "reason")
     private String reason;
-    @Column(name = "startDate")
+    @Column(name = "startDate", nullable = false)
     private Long startDate;
-    @Column(name="endDate")
+    @Column(name="endDate", nullable = false)
     private Long endDate;
-    @Column(name="managerId")
+    @Column(name="managerId", nullable = false)
     private String managerId;
     @Enumerated(EnumType.STRING)
-    @Column(name="status")
+    @Column(name="status", nullable = false)
     private LeaveStatus status;
 
     public LeaveApplication() {
