@@ -29,17 +29,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/getEmployeeByEmpId")
-    public Employee getByEmpId(@RequestParam String empId) {
+    public Employee getByEmpId(@RequestParam String empId) throws Exception {
         return employeeService.getEmployeeByEmpId(empId);
     }
 
-    @DeleteMapping("/deleteEmployeeById")
-    public void deleteEmployeeByEmpId(@RequestParam String empId){
+    @PostMapping("/deleteEmployeeById")
+    public void deleteEmployeeByEmpId(@RequestParam String empId) throws Exception {
         employeeService.deleteEmployeeByEmpId(empId);
     }
 
     @PostMapping("/update")
-    public EmployeeDto update(@RequestBody EmployeeDto employeeDto){
+    public EmployeeDto update(@RequestBody EmployeeDto employeeDto) throws Exception {
         return employeeService.updateEmployee(employeeDto);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
-    @Query(value= "SELECT * FROM employee WHERE empName LIKE %?1%", nativeQuery = true)
+    @Query(value= "SELECT * FROM employee WHERE emp_Name LIKE %?1%", nativeQuery = true)
     List<Employee> findByNameLike(String empName);
 
     Employee findByEmpId(String empID);

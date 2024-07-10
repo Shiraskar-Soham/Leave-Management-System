@@ -1,6 +1,7 @@
 package com.example.lams.service;
 
 import com.example.lams.Repository.LeaveApplicationRepository;
+import com.example.lams.domain.Employee;
 import com.example.lams.domain.LeaveApplication;
 import com.example.lams.dtos.LeaveApplicationDto;
 import com.example.lams.enums.LeaveStatus;
@@ -15,39 +16,59 @@ import java.util.Objects;
 public class LeaveApplicationService {
     @Autowired
     private LeaveApplicationRepository leaveApplicationRepository;
+    @Autowired
+    private EmployeeService employeeService;
 
-    public boolean createLeaveApplication(LeaveApplication leaveApplication) {
-        //check for empty leave
+    public boolean createLeaveApplication(LeaveApplication leaveApplication) throws Exception {
+        if(ObjectUtils.isEmpty(leaveApplication)){
+            throw new Exception("Leave Application cannot be empty");
+        }
+        Employee e = employeeService.getEmployeeByEmpId(leaveApplication.getEmpId());
+        leaveApplication.setManagerId(e.getManagerId());
+        leaveApplication.setEmpName(e.getEmpName());
         leaveApplication.setDateCreated(System.currentTimeMillis());
         leaveApplication.setDateModified(System.currentTimeMillis());
         leaveApplication.setStatus(LeaveStatus.PENDING);
+        leaveApplication.setIsDeleted(false);
         leaveApplicationRepository.save(leaveApplication);
         return true;
     }
 
-    public List<LeaveApplication> getLeavesOfAnEmployee(String empId){
-        //check for empty empId
+    public List<LeaveApplication> getLeavesOfAnEmployee(String empId) throws Exception {
+        if (ObjectUtils.isEmpty(empId)){
+            throw new Exception("empId cannot be empty");
+        }
         return leaveApplicationRepository.findByEmpId(empId);
     }
 
-    public LeaveApplication getLeaveApplication(String leaveId) {
-        //check for null leaveId
+    public LeaveApplication getLeaveApplication(String leaveId) throws Exception {
+        if(ObjectUtils.isEmpty(leaveId)){
+            throw new Exception("leaveId cannot be empty");
+        }
         return leaveApplicationRepository.findByLeaveId(leaveId);
     }
 
-    public void deleteLeave(String leaveId) {
-        //check for null leaveId
+    public void deleteLeave(String leaveId) throws Exception {
+        if(ObjectUtils.isEmpty(leaveId)){
+            throw new Exception("leaveId cannot be empty");
+        }
         LeaveApplication l = leaveApplicationRepository.findByLeaveId(leaveId);
-        // check for leave not found
+        if(ObjectUtils.isEmpty(leaveId)){
+            throw new Exception("No leave found for leaveId = " + leaveId);
+        }
         l.setIsDeleted(true);
         l.setDateModified(System.currentTimeMillis());
         leaveApplicationRepository.save(l);
     }
 
-    public LeaveApplicationDto updateLeaveApplication(LeaveApplicationDto leaveApplicationDto) {
-        //check for empty dto
+    public LeaveApplicationDto updateLeaveApplication(LeaveApplicationDto leaveApplicationDto) throws Exception {
+        if(ObjectUtils.isEmpty(leaveApplicationDto)){
+            throw new Exception("leaveApplicationDto cannot be empty");
+        }
         LeaveApplication l = leaveApplicationRepository.findByLeaveId(leaveApplicationDto.getLeaveId());
-        //check for leave not found
+        if(ObjectUtils.isEmpty(leaveApplicationDto)){
+            throw new Exception("No leave found for the leaveApplicationDto");
+        }
         l.setDateModified(System.currentTimeMillis());
         l.setReason(leaveApplicationDto.getReason());
         l.setStartDate(leaveApplicationDto.getStartDate());
@@ -67,7 +88,7 @@ public class LeaveApplicationService {
         if (!Objects.equals(loggedInAccountId, leaveApplication.getManagerId())) {
             throw new Exception("Leave " + leaveId + " can only be approved by employee's manager with manager empCode: " + leaveApplication.getManagerId());
         }
-        if (status != LeaveStatus.PENDING) {
+        if (leaveApplication.getStatus() != LeaveStatus.PENDING) {
             throw new Exception("Leave is already marked approved or rejected");
         }
         leaveApplication.setStatus(status);

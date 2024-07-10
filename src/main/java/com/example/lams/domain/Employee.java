@@ -4,11 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "employee")
-@Where(clause = "isDeleted=0")
 public class Employee extends BasicDetails{
     @Id
     @Column(name="empId", nullable = false)

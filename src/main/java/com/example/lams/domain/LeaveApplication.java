@@ -2,11 +2,11 @@ package com.example.lams.domain;
 
 import com.example.lams.enums.LeaveStatus;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Where;
+
+import java.lang.reflect.GenericArrayType;
 
 @Entity
 @Table(name="leave_request")
-@Where(clause = "isDeleted=0")
 public class LeaveApplication extends BasicDetails {
     @Id
     @Column(name="leaveId", nullable = false)

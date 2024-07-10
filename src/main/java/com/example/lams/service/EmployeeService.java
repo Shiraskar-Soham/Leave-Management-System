@@ -27,28 +27,44 @@ public class EmployeeService {
         if(ObjectUtils.isEmpty(employee)) {
             throw new Exception("Employee cannot be blank");
         }
+        employee.setDateModified(System.currentTimeMillis());
+        employee.setDateCreated(System.currentTimeMillis());
+        employee.setIsDeleted(false);
         employeeRepository.save(employee);
         return true;
     }
 
-    public Employee getEmployeeByEmpId(String empId){
-        //check for null empId
+    public Employee getEmployeeByEmpId(String empId) throws Exception{
+        if(ObjectUtils.isEmpty(empId)){
+            throw new Exception("EmpId cannot be blank");
+        }
         return employeeRepository.findByEmpId(empId);
     }
 
-    public void deleteEmployeeByEmpId(String empId){
-        //check for null empId
+    public void deleteEmployeeByEmpId(String empId) throws  Exception{
+        if(ObjectUtils.isEmpty(empId)){
+            throw new Exception("EmpId cannot be blank");
+        }
         Employee e = employeeRepository.findByEmpId(empId);
-        //Check if employee not found
+        if(ObjectUtils.isEmpty(empId)){
+            throw new Exception("No Employee Found for empID = " + empId);
+        }
+        if(e.getIsDeleted()){
+            throw new Exception("Employee is already deleted");
+        }
         e.setIsDeleted(true);
         e.setDateModified(System.currentTimeMillis());
         employeeRepository.save(e);
     }
 
-    public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
-        //check for empty dto
+    public EmployeeDto updateEmployee(EmployeeDto employeeDto) throws Exception {
+        if(ObjectUtils.isEmpty(employeeDto)){
+            throw new Exception("EmployeeDTO cannot be empty");
+        }
         Employee e = employeeRepository.findByEmpId(employeeDto.getEmpId());
-        //check if employee not found
+        if(ObjectUtils.isEmpty(e)){
+            throw new Exception("No Employee Found");
+        }
         e.setDateModified(System.currentTimeMillis());
         e.setEmailId(employeeDto.getEmailId());
         e.setEmpName(employeeDto.getEmpName());
