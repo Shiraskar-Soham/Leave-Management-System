@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "employee")
 public class Employee extends BasicDetails{
-    @Column(name= "token", unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String token;
+    @Column(name ="authToken", unique = true, nullable = false)
+    private String authToken;
     @Id
-    @Column(name="empId", nullable = false)
+    @Column(name="empId", nullable = false, unique = true)
     private String empId;
     @Column(name="empName", nullable = false)
     private String empName;
@@ -18,22 +17,35 @@ public class Employee extends BasicDetails{
     @Column(name="managerId", nullable = false)
     private String managerId;
 
-    public Employee() {
-    }
-
-    public Employee(Long dateCreated, Long dateModified, Boolean isDeleted, String empId, String empName, String emailId, String managerId) {
+    public Employee(Long dateCreated, Long dateModified, Boolean isDeleted) {
         super(dateCreated, dateModified, isDeleted);
+    }
+
+    public Employee() {}
+
+    public Employee(Long dateCreated, Long dateModified, Boolean isDeleted, String authToken, String empId, String empName, String emailId, String managerId) {
+        super(dateCreated, dateModified, isDeleted);
+        this.authToken = authToken;
         this.empId = empId;
         this.empName = empName;
         this.emailId = emailId;
         this.managerId = managerId;
     }
 
-    public Employee(String empId, String empName, String emailId, String managerId) {
+    public Employee(String authToken, String empId, String empName, String emailId, String managerId) {
+        this.authToken = authToken;
         this.empId = empId;
         this.empName = empName;
         this.emailId = emailId;
         this.managerId = managerId;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 
     public String getEmpId() {
@@ -67,5 +79,4 @@ public class Employee extends BasicDetails{
     public void setManagerId(String managerId) {
         this.managerId = managerId;
     }
-
 }

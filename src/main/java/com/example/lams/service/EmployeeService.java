@@ -16,40 +16,42 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
 
 
-    public List<Employee> getEmployeeByName(String name){
-        if(ObjectUtils.isEmpty(name)){
+    public List<Employee> getEmployeeByName(String name) {
+        if (ObjectUtils.isEmpty(name)) {
             return null;
         }
         return employeeRepository.findByNameLike(name);
     }
 
-    public boolean createEmployee(Employee employee) throws Exception {
-        if(ObjectUtils.isEmpty(employee)) {
+    public String createEmployee(Employee employee) throws Exception {
+        if (ObjectUtils.isEmpty(employee)) {
             throw new Exception("Employee cannot be blank");
         }
         employee.setDateModified(System.currentTimeMillis());
         employee.setDateCreated(System.currentTimeMillis());
         employee.setIsDeleted(false);
+        String authToken = employee.getEmpId() + "_" + employee.getEmailId();
+        employee.setAuthToken(authToken);
         employeeRepository.save(employee);
-        return true;
+        return employee.getAuthToken();
     }
 
-    public Employee getEmployeeByEmpId(String empId) throws Exception{
-        if(ObjectUtils.isEmpty(empId)){
+    public Employee getEmployeeByEmpId(String empId) throws Exception {
+        if (ObjectUtils.isEmpty(empId)) {
             throw new Exception("EmpId cannot be blank");
         }
         return employeeRepository.findByEmpId(empId);
     }
 
-    public void deleteEmployeeByEmpId(String empId) throws  Exception{
-        if(ObjectUtils.isEmpty(empId)){
+    public void deleteEmployeeByEmpId(String empId) throws Exception {
+        if (ObjectUtils.isEmpty(empId)) {
             throw new Exception("EmpId cannot be blank");
         }
         Employee e = employeeRepository.findByEmpId(empId);
-        if(ObjectUtils.isEmpty(empId)){
+        if (ObjectUtils.isEmpty(empId)) {
             throw new Exception("No Employee Found for empID = " + empId);
         }
-        if(e.getIsDeleted()){
+        if (e.getIsDeleted()) {
             throw new Exception("Employee is already deleted");
         }
         e.setIsDeleted(true);
@@ -58,11 +60,11 @@ public class EmployeeService {
     }
 
     public EmployeeUpdateDto updateEmployee(EmployeeUpdateDto employeeUpdateDto) throws Exception {
-        if(ObjectUtils.isEmpty(employeeUpdateDto)){
+        if (ObjectUtils.isEmpty(employeeUpdateDto)) {
             throw new Exception("EmployeeDTO cannot be empty");
         }
         Employee e = employeeRepository.findByEmpId(employeeUpdateDto.getEmpId());
-        if(ObjectUtils.isEmpty(e)){
+        if (ObjectUtils.isEmpty(e)) {
             throw new Exception("No Employee Found");
         }
         e.setDateModified(System.currentTimeMillis());
