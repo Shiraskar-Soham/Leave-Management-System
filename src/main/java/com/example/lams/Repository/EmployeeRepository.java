@@ -15,4 +15,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
     @Query(value= "SELECT * FROM employee WHERE emp_id = ?1 and is_deleted=false", nativeQuery = true)
     Employee findByEmpId(String empID);
+
+    @Query(value= "SELECT * FROM employee WHERE auth_token = ?1 and is_deleted=false", nativeQuery = true)
+    Employee findByAuthToken(String basicAuthHeaderValue);
 }

@@ -74,4 +74,12 @@ public class EmployeeService {
         employeeRepository.save(e);
         return employeeUpdateDto;
     }
+
+    public boolean validateBasicAuthentication(String basicAuthHeaderValue) throws Exception {
+        if(ObjectUtils.isEmpty(basicAuthHeaderValue)) {
+            throw new Exception("Token Cannot Be Empty");
+        }
+        Employee e = employeeRepository.findByAuthToken(basicAuthHeaderValue);
+        return !ObjectUtils.isEmpty(e);
+    }
 }

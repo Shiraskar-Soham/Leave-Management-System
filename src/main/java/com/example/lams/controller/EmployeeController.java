@@ -1,6 +1,7 @@
 package com.example.lams.controller;
 
 
+import com.example.lams.annotation.Authenticated;
 import com.example.lams.domain.Employee;
 import com.example.lams.dtos.EmployeeUpdateDto;
 import com.example.lams.service.EmployeeService;
@@ -28,6 +29,7 @@ public class EmployeeController {
         return employeeService.createEmployee(employee);
     }
 
+    @Authenticated
     @GetMapping("/getEmployeeByEmpId")
     public Employee getByEmpId(@RequestParam String empId) throws Exception {
         return employeeService.getEmployeeByEmpId(empId);
