@@ -24,22 +24,24 @@ public class EmployeeController {
     }
 
 
+    @Authenticated
     @PostMapping("/createEmployee")
     public String createEmployee(@RequestBody Employee employee) throws Exception {
         return employeeService.createEmployee(employee);
     }
 
-    @Authenticated
     @GetMapping("/getEmployeeByEmpId")
     public Employee getByEmpId(@RequestParam String empId) throws Exception {
         return employeeService.getEmployeeByEmpId(empId);
     }
 
+    @Authenticated
     @PostMapping("/deleteEmployeeById")
     public void deleteEmployeeByEmpId(@RequestParam String empId) throws Exception {
         employeeService.deleteEmployeeByEmpId(empId);
     }
 
+    @Authenticated
     @PostMapping("/update")
     public EmployeeUpdateDto update(@RequestBody EmployeeUpdateDto employeeUpdateDto) throws Exception {
         return employeeService.updateEmployee(employeeUpdateDto);

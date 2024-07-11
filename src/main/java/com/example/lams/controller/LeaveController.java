@@ -1,5 +1,6 @@
 package com.example.lams.controller;
 
+import com.example.lams.annotation.Authenticated;
 import com.example.lams.domain.LeaveApplication;
 import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
@@ -14,6 +15,7 @@ public class LeaveController {
     @Autowired
     private LeaveApplicationService leaveApplicationService;
 
+    @Authenticated
     @PostMapping("/apply")
     public boolean createLeaveApplication(@RequestBody LeaveApplication leaveApplication) throws Exception {
         return leaveApplicationService.createLeaveApplication(leaveApplication);
@@ -29,16 +31,19 @@ public class LeaveController {
         return leaveApplicationService.getLeavesOfAnEmployee(empId);
     }
 
+    @Authenticated
     @PostMapping("/deleteMyLeave")
     public void deleteMyLeave(@RequestParam String leaveId) throws Exception {
         leaveApplicationService.deleteLeave(leaveId);
     }
 
+    @Authenticated
     @PostMapping("/update")
     public LeaveApplicationUpdateDto update(@RequestBody LeaveApplicationUpdateDto leaveApplicationUpdateDto) throws Exception {
         return leaveApplicationService.updateLeaveApplication(leaveApplicationUpdateDto);
     }
 
+    @Authenticated
     @PostMapping("/manageLeave")
     public LeaveApplication manageLeave(@RequestParam String leaveId, @RequestParam LeaveStatus status, @RequestParam String loggedInAccountId) throws Exception {
         return leaveApplicationService.approvalAndRejectionByManager(leaveId, status, loggedInAccountId);
