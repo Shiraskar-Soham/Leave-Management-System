@@ -23,7 +23,6 @@ public class EmployeeController {
         return employeeService.getEmployeeByName(empName);
     }
 
-
     @Authenticated
     @PostMapping("/createEmployee")
     public String createEmployee(@RequestBody Employee employee) throws Exception {

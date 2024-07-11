@@ -22,8 +22,6 @@ public class EmployeeAuthInterceptor implements HandlerInterceptor {
     @Autowired
     EmployeeService employeeService;
 
-
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
