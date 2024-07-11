@@ -1,13 +1,13 @@
 package com.example.lams.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "employee")
 public class Employee extends BasicDetails{
+    @Column(name= "token", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String token;
     @Id
     @Column(name="empId", nullable = false)
     private String empId;
