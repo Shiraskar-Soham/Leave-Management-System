@@ -9,9 +9,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Document(indexName = "LeaveApplicationIndex")
+@Document(indexName = "leaveApplicationIndex")
 public class LeaveApplicationIndex {
+
     @Id
     private String leaveId;
     private String empId;
