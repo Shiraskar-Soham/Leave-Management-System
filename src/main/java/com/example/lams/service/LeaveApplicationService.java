@@ -1,18 +1,14 @@
 package com.example.lams.service;
 
-import com.example.lams.Repository.LeaveApplicationIndexRepository;
 import com.example.lams.Repository.LeaveApplicationRepository;
-import com.example.lams.converter.EsToMysql;
 import com.example.lams.domain.Employee;
 import com.example.lams.domain.LeaveApplication;
-import com.example.lams.domain.LeaveApplicationIndex;
 import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,11 +18,6 @@ public class LeaveApplicationService {
     private LeaveApplicationRepository leaveApplicationRepository;
     @Autowired
     private EmployeeService employeeService;
-    @Autowired
-    private LeaveApplicationIndexRepository leaveApplicationIndexRepository;
-    @Autowired
-    private EsToMysql convertToES;
-
 
     public boolean createLeaveApplication(LeaveApplication leaveApplication) throws Exception {
         if(ObjectUtils.isEmpty(leaveApplication)){
@@ -40,7 +31,6 @@ public class LeaveApplicationService {
         leaveApplication.setStatus(LeaveStatus.PENDING);
         leaveApplication.setIsDeleted(false);
         leaveApplicationRepository.save(leaveApplication);
-        leaveApplicationIndexRepository.save(convertToES.converterIndex(leaveApplication));
         return true;
     }
 
@@ -114,9 +104,5 @@ public class LeaveApplicationService {
             throw new Exception("Manager Id cannot be null.");
         }
         return leaveApplicationRepository.findByManagerId(managerId);
-    }
-
-    public List<LeaveApplicationIndex> getAllLeaves() {
-        return leaveApplicationIndexRepository.getAllLeaves();
     }
 }

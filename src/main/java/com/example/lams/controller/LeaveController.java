@@ -2,7 +2,6 @@ package com.example.lams.controller;
 
 import com.example.lams.annotation.Authenticated;
 import com.example.lams.domain.LeaveApplication;
-import com.example.lams.domain.LeaveApplicationIndex;
 import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
 import com.example.lams.service.LeaveApplicationService;
@@ -25,11 +24,6 @@ public class LeaveController {
     @GetMapping("/getLeaveDetails")
     public LeaveApplication getLeaveDetails(@RequestParam String leaveId) throws Exception {
         return leaveApplicationService.getLeaveApplication(leaveId);
-    }
-
-    @GetMapping("/getAllLeaves")
-    public List<LeaveApplicationIndex> getLeavesOfAnEmployee() throws Exception {
-        return leaveApplicationService.getAllLeaves();
     }
 
     @GetMapping("/checkStatusById")
