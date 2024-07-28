@@ -5,10 +5,17 @@ import com.example.lams.domain.Employee;
 import com.example.lams.domain.LeaveApplication;
 import com.example.lams.dtos.LeaveApplicationUpdateDto;
 import com.example.lams.enums.LeaveStatus;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.services.chat.v1.HangoutsChat;
+import com.google.api.services.chat.v1.model.Message;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,8 +23,23 @@ import java.util.Objects;
 public class LeaveApplicationService {
     @Autowired
     private LeaveApplicationRepository leaveApplicationRepository;
+
     @Autowired
     private EmployeeService employeeService;
+
+    private HangoutsChat chatService;
+
+    @PostConstruct
+    private void init()
+            throws Exception {
+        FileInputStream credentialsStream = new FileInputStream("/home/soham/Downloads/ecopool-550d3-b778c3da9ef4.json");
+        GoogleCredential credentials = GoogleCredential.fromStream(credentialsStream)
+                .createScoped(Collections.singleton("https://www.googleapis.com/auth/chat.messages"));
+        // Build the Google Chat client
+        chatService = new HangoutsChat.Builder(credentials.getTransport(), credentials.getJsonFactory(), credentials)
+                .setApplicationName("Soham Shiraskar")
+                .build();
+    }
 
     public boolean createLeaveApplication(LeaveApplication leaveApplication) throws Exception {
         if(ObjectUtils.isEmpty(leaveApplication)){
@@ -30,6 +52,9 @@ public class LeaveApplicationService {
         leaveApplication.setDateModified(System.currentTimeMillis());
         leaveApplication.setStatus(LeaveStatus.PENDING);
         leaveApplication.setIsDeleted(false);
+        String text = "Leave Created by " + leaveApplication.getEmpId() + ". Kindly check the same.";
+        Message message = new Message().setName("Leave Created").setText(text);
+        chatService.spaces().messages().create("spaces/AAAANQoqCm0", message).execute();
         leaveApplicationRepository.save(leaveApplication);
         return true;
     }
