@@ -37,7 +37,7 @@ public class LeaveApplicationService {
                 .createScoped(Collections.singleton("https://www.googleapis.com/auth/chat.messages"));
         // Build the Google Chat client
         chatService = new HangoutsChat.Builder(credentials.getTransport(), credentials.getJsonFactory(), credentials)
-                .setApplicationName("Soham Shiraskar")
+                .setApplicationName("Oasys Bot")
                 .build();
     }
 
